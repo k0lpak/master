@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web.Http;
+using TestProject.Repository;
 
 namespace TestProject
 {
@@ -19,6 +22,8 @@ namespace TestProject
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+   
         }
     }
 }

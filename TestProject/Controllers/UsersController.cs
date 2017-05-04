@@ -12,16 +12,22 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using TestProject;
 using TestProject.Models;
+using TestProject.Repository;
 
 namespace TestProject.Controllers
 {
-    public class UsersController : BaseController
+    public class UsersController : ApiController
     {
-      
+        IUserRepository _repository;
+
+        public UsersController(IUserRepository repository)
+        {
+            _repository = repository;
+        }
         [HttpGet]     
         public IHttpActionResult GetUser()
         {
-            var result = dataContext.Users.ToList();
+            var result = _repository.GetUserList();
 
             return Ok(result);
         }
@@ -31,39 +37,27 @@ namespace TestProject.Controllers
         [ResponseType(typeof(User))]
         public IHttpActionResult GetUser(int id)
         {
-            var user = dataContext.Users.Find(id);
+            var user = _repository.GetUser(id);
             if (user == null)
             {
                 return NotFound();
             }
-
             return Ok(user);
+           
         }
 
         [HttpPut]        
         public IHttpActionResult UpdateUser([FromBody]User putModel)
         {
-            var user = dataContext.Users.Where(x => x.Id == putModel.Id).FirstOrDefault();
-            if (user == null) return BadRequest();
+                     
+            _repository.Update(putModel);
 
-          
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            //Main information
-
-            user.FirstName = putModel.FirstName;
-            user.LastName = putModel.LastName;
-            user.Email = putModel.Email;
-            user.Position = putModel.Position;
-
-
-            //Save changes
-            dataContext.SaveChanges();
-
-            return Ok("User success edited");
+            return Ok();
         }
 
       
@@ -72,14 +66,11 @@ namespace TestProject.Controllers
 
         public IHttpActionResult PostUser(User user)
         {
-            
+            _repository.Create(user);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            dataContext.Users.Add(user);
-            dataContext.SaveChanges();
 
             return  Ok();
         }
@@ -88,29 +79,13 @@ namespace TestProject.Controllers
         [ResponseType(typeof(User))]
         public IHttpActionResult DeleteUser(int id)
         {
-            var user = dataContext.Users.Where(x => x.Id == id).FirstOrDefault();
-            if (user == null) return NotFound();
-
-            //Save changes
-            dataContext.Users.Remove(user);
-            dataContext.SaveChanges();
+            _repository.Delete(id);
+           
 
             return Ok();           
 
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                dataContext.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool UserExists(int id)
-        {
-            return dataContext.Users.Count(e => e.Id == id) > 0;
-        }
+       
     }
 }
