@@ -51,16 +51,7 @@ namespace TestProject.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (!Regex.IsMatch(putModel.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
-           
-            {
-                ModelState.AddModelError("Email","Email is not correct");
-                return BadRequest(ModelState);
-            }
-           
-
-
-
+            
             //Main information
 
             obj.FirstName = putModel.FirstName;
@@ -72,7 +63,7 @@ namespace TestProject.Controllers
             //Save changes
             objContext.SaveChanges();
 
-            return Ok(new Message("User success edited"));
+            return Ok("User success edited");
         }
 
       
@@ -85,23 +76,12 @@ namespace TestProject.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            //Email
-           
-                if (!Regex.IsMatch(user.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
-
-            {                
-                ModelState.AddModelError("Email", "Email is not correct");
-                return BadRequest(ModelState);
-            }
-           
-
+            }           
           
             objContext.Users.Add(user);
             objContext.SaveChanges();
 
-            return  Ok(new Message("ok"));
+            return  Ok();
         }
 
         // DELETE: api/Users/5

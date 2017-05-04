@@ -1,4 +1,3 @@
-C:\Users\y.shpak\Repos\master\TestProject\bin\ApplicationInsights.config
 C:\Users\y.shpak\Repos\master\TestProject\bin\roslyn\csc.exe
 C:\Users\y.shpak\Repos\master\TestProject\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\y.shpak\Repos\master\TestProject\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll

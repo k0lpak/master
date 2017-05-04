@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
+using static TestProject.Enum.PositionEnum;
 
 namespace TestProject.Models
 {
@@ -21,21 +22,11 @@ namespace TestProject.Models
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "The {0} can not be empty")]
+        [EmailAddress(ErrorMessage = "Not a valid email")]
         public string Email { get; set; }
         
         public Position Position {get;set;}
     }
 
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum Position
-    {
-        [EnumMember(Value ="PM")]
-        PM,
-        [EnumMember(Value = "QA")]
-        QA,
-        [EnumMember(Value = "Developer")]
-        Developer,
-        [EnumMember(Value = "Other")]
-        Other
-    }
+   
 }
