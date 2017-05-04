@@ -17,8 +17,7 @@ namespace TestProject.Controllers
 {
     public class UsersController : BaseController
     {
-        private DBAContext db = new DBAContext();
-
+      
         [HttpGet]     
         public IHttpActionResult GetUser()
         {
@@ -32,7 +31,7 @@ namespace TestProject.Controllers
         [ResponseType(typeof(User))]
         public IHttpActionResult GetUser(int id)
         {
-            User user = db.Users.Find(id);
+            User user = objContext.Users.Find(id);
             if (user == null)
             {
                 return NotFound();
@@ -99,8 +98,8 @@ namespace TestProject.Controllers
            
 
           
-            db.Users.Add(user);
-            db.SaveChanges();
+            objContext.Users.Add(user);
+            objContext.SaveChanges();
 
             return  Ok(new Message("ok"));
         }
@@ -124,14 +123,14 @@ namespace TestProject.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                objContext.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool UserExists(int id)
         {
-            return db.Users.Count(e => e.Id == id) > 0;
+            return objContext.Users.Count(e => e.Id == id) > 0;
         }
     }
 }

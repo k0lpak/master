@@ -143,7 +143,7 @@
             FirstName: $('#fistNameEdit').val(),
             LastName: $('#lastNameEdit').val(),
             Email: $('#emailEdit').val(),
-            Position:  $('#positionEdit').val()
+            Position: $('#PositionSelectEdit option:selected').text()
         };
         $.ajax({
             url: '/api/users/' + id,
@@ -254,6 +254,7 @@
                 $("input[name='name']").val(data.FirstName);
                 $("input[name='surname']").val(data.LastName);
                 $("input[name='email']").val(data.Email);
+                $('#positionList').find('option').remove().end().append($('<option></option>').val(data.Position).html(data.Position));
                 $('#myModal').modal("show");
               
             },
