@@ -21,7 +21,7 @@ namespace TestProject.Controllers
         [HttpGet]     
         public IHttpActionResult GetUser()
         {
-            var result = objContext.Users.ToList();
+            var result = dataContext.Users.ToList();
 
             return Ok(result);
         }
@@ -31,7 +31,7 @@ namespace TestProject.Controllers
         [ResponseType(typeof(User))]
         public IHttpActionResult GetUser(int id)
         {
-            var user = objContext.Users.Find(id);
+            var user = dataContext.Users.Find(id);
             if (user == null)
             {
                 return NotFound();
@@ -43,25 +43,25 @@ namespace TestProject.Controllers
         [HttpPut]        
         public IHttpActionResult UpdateUser([FromBody]User putModel)
         {
-            var obj = objContext.Users.Where(x => x.Id == putModel.Id).FirstOrDefault();
-            if (obj == null) return BadRequest();
+            var user = dataContext.Users.Where(x => x.Id == putModel.Id).FirstOrDefault();
+            if (user == null) return BadRequest();
 
           
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            
+
             //Main information
 
-            obj.FirstName = putModel.FirstName;
-            obj.LastName = putModel.LastName;
-            obj.Email = putModel.Email;
-            obj.Position = putModel.Position;
+            user.FirstName = putModel.FirstName;
+            user.LastName = putModel.LastName;
+            user.Email = putModel.Email;
+            user.Position = putModel.Position;
 
 
             //Save changes
-            objContext.SaveChanges();
+            dataContext.SaveChanges();
 
             return Ok("User success edited");
         }
@@ -76,10 +76,10 @@ namespace TestProject.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }           
-          
-            objContext.Users.Add(user);
-            objContext.SaveChanges();
+            }
+
+            dataContext.Users.Add(user);
+            dataContext.SaveChanges();
 
             return  Ok();
         }
@@ -88,12 +88,12 @@ namespace TestProject.Controllers
         [ResponseType(typeof(User))]
         public IHttpActionResult DeleteUser(int id)
         {
-            var obj = objContext.Users.Where(x => x.Id == id).FirstOrDefault();
-            if (obj == null) return NotFound();
+            var user = dataContext.Users.Where(x => x.Id == id).FirstOrDefault();
+            if (user == null) return NotFound();
 
             //Save changes
-            objContext.Users.Remove(obj);
-            objContext.SaveChanges();
+            dataContext.Users.Remove(user);
+            dataContext.SaveChanges();
 
             return Ok();           
 
@@ -103,14 +103,14 @@ namespace TestProject.Controllers
         {
             if (disposing)
             {
-                objContext.Dispose();
+                dataContext.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool UserExists(int id)
         {
-            return objContext.Users.Count(e => e.Id == id) > 0;
+            return dataContext.Users.Count(e => e.Id == id) > 0;
         }
     }
 }

@@ -9,11 +9,11 @@ namespace TestProject.Controllers
 {
     public class BaseController : ApiController
     {
-        protected DBAContext objContext;
+        protected DBAContext dataContext;
 
         public BaseController()
         {
-            objContext = new DBAContext();
+            dataContext = new DBAContext();
         }
 
      }
