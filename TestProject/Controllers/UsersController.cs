@@ -31,7 +31,7 @@ namespace TestProject.Controllers
         [ResponseType(typeof(User))]
         public IHttpActionResult GetUser(int id)
         {
-            User user = objContext.Users.Find(id);
+            var user = objContext.Users.Find(id);
             if (user == null)
             {
                 return NotFound();
